@@ -2,10 +2,28 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 //const Data = require("./data");
+const SerialPort = require("serialport");
+// const SerialPort = serialport.SerialPort;
+
+const arduinoPort = new SerialPort("COM5", {
+  baudRate: 9600,
+  // parser: SerialPort.parsers.readline('\n')
+});
 
 const API_PORT = 3001;
 const app = express();
 const router = express.Router();
+
+
+arduinoPort.on('open', function () {
+  console.log('Serial Port Opened');
+  var dataString = "";
+  arduinoPort.on('data', function (data) {
+      dataString += data.toString('utf8');
+      console.log(dataString);
+  });
+});
+
 
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
