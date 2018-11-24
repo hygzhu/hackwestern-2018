@@ -20,41 +20,72 @@ const router = express.Router();
 app.use(cors());
 app.options('*', cors());
 // var tempInfo = [15, 16, 16, 18, 25, 25, 16];
-const maxLength = 7;
-var lightInfo = [];
-var tempInfo = [];
-var noiseInfo = [];
+var lightInfo = 0;
+var tempInfo = 0;
+var noiseInfo = 0;
 
-// arduinoPort.on('open', function () {
-  // console.log('Serial Port Opened');
+var data = [
+  {
+    nodeName: "Room A400",
+    nodeData: []
+  }
+];
+var roomA400NodeData = [];
+
 var dataString = "";
-var curInput = 0;
-// 0 = light, 1 = temperature, 2 = noise
+var curInput = 0; // 0 = light, 1 = temperature, 2 = noise
+var curIter = 1;
+const maxIter = 20; // 20 datapoints with 100ms delay between each (new node every 2s)
+const maxDataPoints = 15;
 parser.on('data', function (data) {
   dataString = data.toString('utf8');
+  if (curIter == maxIter) { // Calculate average data
+    var date = new Date();
+    var time = date.getHours();
+    time += date.getMinutes();
+    time += date.getSeconds();
+    // Calculate Averages and put in a node
+    var avgLight = lightInfo/maxIter;
+    var avgTemp = tempInfo/maxIter;
+    var avgNoise = noiseInfo/maxIter;
+    if (__DEBUG) {  // Print debug messages
+      console.log("light: " + avgLight);
+      console.log("TEMP: " + avgTemp);
+      console.log("noise: " + avgNoise);
+    } // if
+    var node = {
+      name: time,
+      light: avgLight,
+      temperature: avgTemp,
+      sound: avgNoise
+    }
+    roomA400NodeData.push(node);
+    if (roomA400NodeData.length > maxDataPoints) roomA400NodeData.shift();
+    // Reset tallies
+    curIter = 0;
+    lightInfo = 0;
+    tempInfo = 0;
+    noiseInfo = 0;
+  }
   switch (curInput) { // cycle through the 3 input types
     case 0:
-      lightInfo.push(parseFloat(data.toString('utf8')));
-      if (lightInfo.length > maxLength) lightInfo.shift(); 
-      if (__DEBUG) console.log("light: " + lightInfo);
+      lightInfo += toPercentageBrightness(parseFloat(data.toString('utf8')));
       curInput++;
       break;
     case 1:
-      tempInfo.push(parseFloat(data.toString('utf8')));
-      if (tempInfo.length > maxLength) tempInfo.shift(); 
-      if (__DEBUG) console.log("TEMP: " + tempInfo);
+      tempInfo += parseFloat(data.toString('utf8'));
       curInput++;
       break;
     case 2:
-      noiseInfo.push(parseFloat(data.toString('utf8')));
-      if (noiseInfo.length > maxLength) noiseInfo.shift(); 
-      console.log("noise: " + noiseInfo);
+      noiseInfo += toDecibels(parseFloat(data.toString('utf8')));
       curInput = 0;
+      curIter++;
       break;
   } // switch
 });
 // });
 
+data.nodeData = roomA400NodeData;
 
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
@@ -62,34 +93,34 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 
-var data = [
-  {
-    nodeName: "Room A400",
-    nodeData:
-    [
-      {name: '1121', temperature: 4000, sound: 2400, light: 2400},
-      {name: '1122', temperature: 3000, sound: 1398, light: 2210},
-      {name: '1123', temperature: 2000, sound: 9800, light: 2290},
-      {name: '1124', temperature: 2780, sound: 3908, light: 2000},
-      {name: '1125', temperature: 1890, sound: 4800, light: 2181},
-      {name: '1126', temperature: 2390, sound: 3800, light: 2500},
-      {name: '1127', temperature: 3490, sound: 4300, light: 2100},
-    ]
-  },
-  {
-    nodeName: "Room B2",
-    nodeData:
-    [
-      {name: '1121', temperature: 25, sound: 500, light: 500},
-      {name: '1122', temperature: 26, sound: 550, light: 550},
-      {name: '1123', temperature: 26, sound: 590, light: 600},
-      {name: '1124', temperature: 27, sound: 570, light: 500},
-      {name: '1125', temperature: 26, sound: 560, light: 480},
-      {name: '1126', temperature: 28, sound: 550, light: 488},
-      {name: '1127', temperature: 29, sound: 600, light: 489},
-    ]
-  }
-];
+// var data = [
+//   {
+//     nodeName: "Room A400",
+//     nodeData:
+//     [
+//       {name: '1121', temperature: 4000, sound: 2400, light: 2400},
+//       {name: '1122', temperature: 3000, sound: 1398, light: 2210},
+//       {name: '1123', temperature: 2000, sound: 9800, light: 2290},
+//       {name: '1124', temperature: 2780, sound: 3908, light: 2000},
+//       {name: '1125', temperature: 1890, sound: 4800, light: 2181},
+//       {name: '1126', temperature: 2390, sound: 3800, light: 2500},
+//       {name: '1127', temperature: 3490, sound: 4300, light: 2100},
+//     ]
+//   },
+//   {
+//     nodeName: "Room B2",
+//     nodeData:
+//     [
+//       {name: '1121', temperature: 25, sound: 500, light: 500},
+//       {name: '1122', temperature: 26, sound: 550, light: 550},
+//       {name: '1123', temperature: 26, sound: 590, light: 600},
+//       {name: '1124', temperature: 27, sound: 570, light: 500},
+//       {name: '1125', temperature: 26, sound: 560, light: 480},
+//       {name: '1126', temperature: 28, sound: 550, light: 488},
+//       {name: '1127', temperature: 29, sound: 600, light: 489},
+//     ]
+//   }
+// ];
 
 //Temperature currently goes from 0 - 150 and then becomes infinity
 //Light ranges from 0-1000
@@ -112,11 +143,22 @@ app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
 function toDecibels(noise){
 
   //Get the 40db mark (quiet office) TODO: Need to calibrate
-  const frame = 200;
+  const frame = 150;
 
   //Need to calibrate against a sound meter
   let db_change = 20*Math.log10(noise/frame);
 
   return 40 + db_change;
   
+}
+
+function toCelsius(temp) {
+  return temp - 20;
+}
+
+// Gets the percentage brightness
+function toPercentageBrightness(brightness) {
+  const maxBrightness = 1100;
+
+  return brightness / maxBrightness * 100;
 }
