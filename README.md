@@ -1,3 +1,5 @@
+# DO NOT CHANGE MAIN.INO!
+
 # Data Ranges
 Temperature: 47-73F
 Light: 2-1023
