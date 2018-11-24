@@ -34,6 +34,10 @@ app.use(logger("dev"));
 
 var tempInfo = [15, 16, 16, 18, 25, 25, 16];
 
+//Temperature currently goes from 0 - 150 and then becomes infinity
+//Light ranges from 0-1000
+//Sound ranges 0-1000 (Ambient sound is around 200)
+
 router.get("/getData", (req, res) => {
   return res.json({tempData: tempInfo, name: "Temperature information"});
 });
