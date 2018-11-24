@@ -1,0 +1,8 @@
+# Data Ranges
+Temperature: 47-73F
+Light: 2-1023
+Noise: 0-1000 (Ambient of 100)
+
+# Q/A:
+Q: Opening port causes Access denied error
+A: Try closing the built in arduino serial monitor
