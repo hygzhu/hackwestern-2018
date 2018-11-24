@@ -73,3 +73,18 @@ app.use("/api", router);
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
+
+//Helper function zone
+
+//converts the arduino noise level to decibels
+function toDecibels(noise){
+
+  //Get the 40db mark (quiet office) TODO: Need to calibrate
+  const frame = 200;
+
+  //Need to calibrate against a sound meter
+  let db_change = 20*Math.log10(noise/frame);
+
+  return 40 + db_change;
+  
+}
