@@ -60,14 +60,14 @@ void setup() {
 void loop() {
     int light = analogRead(pinLightSensor);
 //    Serial.print("Light = ");
-    Serial.println(light);
+//    Serial.println(light);
     
     int a = analogRead(pinTempSensor);
     float R = 1023.0/a-1.0;
     R = R0*R;
     float temperature = 1.0/(log(R/R0)/B+1/298.15)-273.15; // convert to temperature via datasheet
 //    Serial.print("temperature = ");
-    Serial.println(temperature);
+//    Serial.println(temperature);
 //    Serial.println(a);
     if (temperature > tempMax) tempMax = temperature;
     if (temperature < tempMin) tempMin = temperature;
@@ -80,7 +80,7 @@ void loop() {
     noise >>= 5;
 
 //    Serial.print("Noise level: ");
-    noise = max(0, 1100 - noise);
+//    noise = max(0, 1100 - noise);
     Serial.println(noise);
     if (noise > noiseMax) noiseMax = noise;
     if (noise < noiseMin) noiseMin = noise;

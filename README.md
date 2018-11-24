@@ -1,7 +1,7 @@
 # DO NOT CHANGE MAIN.INO!
 
 # Data Ranges
-Temperature: 47-73F
+Temperature: 20-50C
 Light: 2-1023
 Noise: 0-1000 (Ambient of 100)
 
