@@ -46,8 +46,15 @@ parser.on('data', function (data) {
     time += date.getSeconds();
     // Calculate Averages and put in a node
     var avgLight = lightInfo/maxIter;
+    if (avgLight < 0) { avgLight = 0; } 
+    else if (avgLight > 100) { avgLight = 100; }
     var avgTemp = tempInfo/maxIter;
+    if (avgTemp < 10) { avgTemp = 10; } 
+    else if (avgTemp > 40) { avgTemp = 40; }
     var avgNoise = noiseInfo/maxIter;
+    if (avgNoise < -999) { avgNoise = 45; }
+    else if (avgNoise < 35) { avgNoise = 35; }
+    else if (avgNoise > 50) { avgNoise = 50; }
     if (__DEBUG) {  // Print debug messages
       console.log("light: " + avgLight);
       console.log("TEMP: " + avgTemp);
@@ -66,6 +73,7 @@ parser.on('data', function (data) {
     lightInfo = 0;
     tempInfo = 0;
     noiseInfo = 0;
+    data.nodeData = roomA400NodeData;
   }
   switch (curInput) { // cycle through the 3 input types
     case 0:
@@ -73,7 +81,7 @@ parser.on('data', function (data) {
       curInput++;
       break;
     case 1:
-      tempInfo += parseFloat(data.toString('utf8'));
+      tempInfo += toCelsius(parseFloat(data.toString('utf8')));
       curInput++;
       break;
     case 2:
@@ -85,7 +93,6 @@ parser.on('data', function (data) {
 });
 // });
 
-data.nodeData = roomA400NodeData;
 
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
@@ -153,7 +160,7 @@ function toDecibels(noise){
 }
 
 function toCelsius(temp) {
-  return temp - 20;
+  return temp - 30;
 }
 
 // Gets the percentage brightness
