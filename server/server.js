@@ -5,13 +5,13 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 const cors = require("cors");
 //const Data = require("./data");
-const SerialPort = require('serialport');
-const Delimiter = require('@serialport/parser-delimiter')
+//const SerialPort = require('serialport');
+//const Delimiter = require('@serialport/parser-delimiter')
 // const SerialPort = serialport.SerialPort;
-const Readline = SerialPort.parsers.Readline;
+//const Readline = SerialPort.parsers.Readline;
 
-const arduinoPort = new SerialPort('\\\\.\\COM5');
-const parser = arduinoPort.pipe(new Delimiter({ delimiter: '\n'}));
+//const arduinoPort = new SerialPort('\\\\.\\COM5');
+//const parser = arduinoPort.pipe(new Delimiter({ delimiter: '\n'}));
 
 const API_PORT = 3001;
 const app = express();
@@ -30,7 +30,7 @@ var noiseInfo = [];
 var dataString = "";
 var curInput = 0;
 // 0 = light, 1 = temperature, 2 = noise
-parser.on('data', function (data) {
+/*parser.on('data', function (data) {
   dataString = data.toString('utf8');
   switch (curInput) { // cycle through the 3 input types
     case 0:
@@ -52,7 +52,7 @@ parser.on('data', function (data) {
       curInput = 0;
       break;
   } // switch
-});
+});*/
 // });
 
 

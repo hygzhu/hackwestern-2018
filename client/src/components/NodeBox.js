@@ -37,12 +37,12 @@ class NodeBox extends Component {
       <div className="node-box" onClick={() => {this.props.handleClick(this.props.graphIndex)}}>
         <p className="node-title">{nodeData.nodeName}</p>
         <div className="node-gauges">
-          <div className="indicator-circle" style={{"background-color": "#" + tempColor}}> </div>
-          <p className="node-label"><i class="fas fa-temperature-high"></i>  {latestData.temperature}</p>
+          <div className="indicator-circle" style={{"backgroundColor": "#" + tempColor}}> </div>
+          <p className="node-label"><i className="fas fa-temperature-high"></i>  {latestData.temperature}</p>
           <div className="indicator-circle"> </div>
-          <p className="node-label"><i class="fas fa-volume-up"></i>  {latestData.sound}</p>
+          <p className="node-label"><i className="fas fa-volume-up"></i>  {latestData.sound}</p>
           <div className="indicator-circle"> </div>
-          <p className="node-label"><i class="fas fa-lightbulb"></i>  {latestData.light}</p>
+          <p className="node-label"><i className="fas fa-lightbulb"></i>  {latestData.light}</p>
         </div>
       </div>
     );
