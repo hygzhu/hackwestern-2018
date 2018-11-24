@@ -80,7 +80,7 @@ void loop() {
     noise >>= 5;
 
 //    Serial.print("Noise level: ");
-    noise = max(0, 1100 - noise);
+//    noise = max(0, 1100 - noise);
     Serial.println(noise);
     if (noise > noiseMax) noiseMax = noise;
     if (noise < noiseMin) noiseMin = noise;
