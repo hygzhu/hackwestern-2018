@@ -1,30 +1,56 @@
+const __DEBUG = true;
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 //const Data = require("./data");
 const SerialPort = require('serialport');
+const Delimiter = require('@serialport/parser-delimiter')
 // const SerialPort = serialport.SerialPort;
 const Readline = SerialPort.parsers.Readline;
 
 const arduinoPort = new SerialPort('\\\\.\\COM5');
-const parser = new Readline();
-
-arduinoPort.pipe(parser);
+const parser = arduinoPort.pipe(new Delimiter({ delimiter: '\n'}));
 
 const API_PORT = 3001;
 const app = express();
 const router = express.Router();
 
+// var tempInfo = [15, 16, 16, 18, 25, 25, 16];
+const maxLength = 7;
+var lightInfo = [];
+var tempInfo = [];
+var noiseInfo = [];
 
-arduinoPort.on('open', function () {
-  console.log('Serial Port Opened');
-  var dataString = "";
-  arduinoPort.on('data', function (data) {
-      dataString += data.toString('utf8');
-      console.log(dataString);
-      dataString = "";
-  });
+// arduinoPort.on('open', function () {
+  // console.log('Serial Port Opened');
+var dataString = "";
+var curInput = 0;
+// 0 = light, 1 = temperature, 2 = noise
+parser.on('data', function (data) {
+  dataString = data.toString('utf8');
+  switch (curInput) { // cycle through the 3 input types
+    case 0:
+      lightInfo.push(parseFloat(data.toString('utf8')));
+      if (lightInfo.length > maxLength) lightInfo.shift(); 
+      if (__DEBUG) console.log("light: " + lightInfo);
+      curInput++;
+      break;
+    case 1:
+      tempInfo.push(parseFloat(data.toString('utf8')));
+      if (tempInfo.length > maxLength) tempInfo.shift(); 
+      if (__DEBUG) console.log("TEMP: " + tempInfo);
+      curInput++;
+      break;
+    case 2:
+      noiseInfo.push(parseFloat(data.toString('utf8')));
+      if (noiseInfo.length > maxLength) noiseInfo.shift(); 
+      console.log("noise: " + noiseInfo);
+      curInput = 0;
+      break;
+  } // switch
 });
+// });
 
 
 // (optional) only made for logging and
@@ -33,7 +59,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 
-var tempInfo = [15, 16, 16, 18, 25, 25, 16];
 
 //Temperature currently goes from 0 - 150 and then becomes infinity
 //Light ranges from 0-1000
