@@ -2,13 +2,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 //const Data = require("./data");
-const SerialPort = require("serialport");
+const SerialPort = require('serialport');
 // const SerialPort = serialport.SerialPort;
+const Readline = SerialPort.parsers.Readline;
 
-const arduinoPort = new SerialPort("COM5", {
-  baudRate: 9600,
-  // parser: SerialPort.parsers.readline('\n')
-});
+const arduinoPort = new SerialPort('\\\\.\\COM5');
+const parser = new Readline();
+
+arduinoPort.pipe(parser);
 
 const API_PORT = 3001;
 const app = express();
