@@ -22,6 +22,7 @@ arduinoPort.on('open', function () {
   arduinoPort.on('data', function (data) {
       dataString += data.toString('utf8');
       console.log(dataString);
+      dataString = "";
   });
 });
 
