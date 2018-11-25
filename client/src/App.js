@@ -25,7 +25,7 @@ class App extends Component {
       },
       {
         name: 'filter-2',
-        label: 'Discussion rooms',
+        label: 'Busy rooms',
       },
       {
         name: 'filter-3',
@@ -77,13 +77,13 @@ class App extends Component {
     console.log(d);
     console.log(this.state.checkedItems);
     console.log(this.state.checkedItems.get("filter-1") && true);
-    if (this.state.checkedItems.get("filter-1") && (d.sound > 38 || d.light > 30 || d.temperature > 24 || d.temperature < 21)) {
+    if (this.state.checkedItems.get("filter-1") && (d.sound > 45 || d.light > 30 || d.temperature > 24 || d.temperature < 21)) {
       return false;
     }
-    else if (this.state.checkedItems.get("filter-2") && (d.light < 36 || d.temperature < 21 || d.temperature > 27)) {
+    else if (this.state.checkedItems.get("filter-2") && (d.light < 50 || d.sound < 60)) {
       return false;
     }
-    else if (this.state.checkedItems.get("filter-3") && (d.light < 36 || d.temperature < 21 || d.temperature > 27 || d.sound > 41)) {
+    else if (this.state.checkedItems.get("filter-3") && (d.light < 50 || d.sound < 45 || d.sound > 55)) {
       return false;
     }
     else {
