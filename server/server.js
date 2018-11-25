@@ -22,15 +22,28 @@ app.options('*', cors());
 // var tempInfo = [15, 16, 16, 18, 25, 25, 16];
 var lightInfo = 0;
 var tempInfo = 0;
-var noiseInfo = 0;
+var noiseInfo = 0; //innacurrate way
+var noiseMax = 0;
 
 var graphData = [
   {
     nodeName: "Room A400",
     nodeData: []
+  },
+  {
+    nodeName: "Room B2",
+    nodeData: []
+  },
+  {
+    nodeName: "Room C9",
+    nodeData: []
   }
 ];
-var roomA400NodeData = [];
+var room1 = [];
+var room2 = [];
+var room3 = [];
+var room4 = [];
+var room5 = [];
 
 var dataString = "";
 var curInput = 0; // 0 = light, 1 = temperature, 2 = noise
@@ -42,9 +55,10 @@ parser.on('data', function (data) {
   dataString = data.toString('utf8');
   if (curIter == maxIter) { // Calculate average data
     var date = new Date();
-    var time = date.getHours();
-    time += date.getMinutes();
-    time += date.getSeconds();
+    var time = date.getHours().toString();
+    time += ":" + date.getMinutes().toString();
+    time += ":" + date.getSeconds().toString();
+    console.log("Server time: " + time );
     // Calculate Averages and put in a node
     var avgLight = lightInfo/maxIter;
     if (avgLight < 0) { avgLight = 0; } 
@@ -68,16 +82,56 @@ parser.on('data', function (data) {
       name: time,
       light: avgLight,
       temperature: avgTemp,
-      sound: avgNoise
+      sound: noiseMax
     }
-    roomA400NodeData.push(node);
-    if (roomA400NodeData.length > maxDataPoints) roomA400NodeData.shift();
+    //dark room
+    var node2 = {
+      name: time,
+      light: 10 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
+      temperature: 22 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
+      sound: 40+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) )
+    }
+    //loud and hot
+    var node3 = {
+      name: time,
+      light: 90 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
+      temperature: 28 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
+      sound: 65+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) )
+    }
+    var node4 = {
+      name: time,
+      light: 10 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
+      temperature: 22 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
+      sound: 40+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) )
+    }
+    var node5 = {
+      name: time,
+      light: 90 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
+      temperature: 28 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
+      sound: 65+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) )
+    }
+    room1.push(node);
+    room2.push(node2);
+    room3.push(node3);
+    room4.push(node4);
+    room5.push(node5);
+
+    if (room1.length > maxDataPoints) room1.shift();
+    if (room2.length > maxDataPoints) room2.shift();
+    if (room3.length > maxDataPoints) room3.shift();
+    if (room4.length > maxDataPoints) room4.shift();
+    if (room5.length > maxDataPoints) room5.shift();
     // Reset tallies
     curIter = 0;
     lightInfo = 0;
     tempInfo = 0;
     noiseInfo = 0;
-    graphData[0].nodeData = roomA400NodeData;
+    noiseMax = 0;
+    graphData[0].nodeData = room1;
+    graphData[1].nodeData = room2;
+    graphData[2].nodeData = room3;
+    graphData[3].nodeData = room4;
+    graphData[4].nodeData = room5;
     if (__DEBUG) console.log(graphData);
   }
   switch (curInput) { // cycle through the 3 input types
@@ -90,7 +144,9 @@ parser.on('data', function (data) {
       curInput++;
       break;
     case 2:
-      noiseInfo += toDecibels(parseFloat(data.toString('utf8')));
+      //noiseInfo += toDecibels(parseFloat(data.toString('utf8')));
+      noiseMax = Math.max(noiseMax, toDecibels(parseFloat(data.toString('utf8'))));
+      // console.log(noiseMax);
       curInput = 0;
       curIter++;
       break;
@@ -154,18 +210,22 @@ app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
 //converts the arduino noise level to decibels
 function toDecibels(noise){
 
+  //console.log("Noise level: " + noise)
+
   //Get the 40db mark (quiet office) TODO: Need to calibrate
-  const frame = 150;
+  const frame = 100;
 
   //Need to calibrate against a sound meter
   let db_change = 20*Math.log10(noise/frame);
 
-  return 40 + db_change;
+  //console.log("DB Change:" + db_change);
+
+  return 45 + db_change;
   
 }
 
 function toCelsius(temp) {
-  return temp - 30;
+  return temp - 35;
 }
 
 // Gets the percentage brightness
