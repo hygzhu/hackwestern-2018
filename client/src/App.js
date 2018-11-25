@@ -121,12 +121,14 @@ class App extends Component {
           }
           </div>
         </header>
-        <div className="node-container">
-          {nodes.map((node, i) => {
-            if (this.filterNode(node)) {
-              return <NodeBox handleClick={this.setGraphIndex.bind(this)} data={node} key={i} graphIndex={i}/>;
-            }
-          })}
+        <div className="map-container">
+          <div className="node-container">
+            {nodes.map((node, i) => {
+              if (this.filterNode(node)) {
+                return <NodeBox handleClick={this.setGraphIndex.bind(this)} data={node} key={i} graphIndex={i}/>;
+              }
+            })}
+          </div>
         </div>
         {graphDisplay}
       </div>
