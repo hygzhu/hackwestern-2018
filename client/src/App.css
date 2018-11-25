@@ -189,7 +189,7 @@ p, span, tspan {
 }
 
 .live-data-room {
-  top: 390px;
+  top: 360px;
   left: 310px;
 }
 
@@ -204,11 +204,11 @@ p, span, tspan {
 }
 
 .work-room {
-  top: 550px;
+  top: 480px;
   left: 720px;
 }
 
 .loud-room-2 {
   top: 250px;
-  left: 1050px;
+  left: 1250px;
 }
