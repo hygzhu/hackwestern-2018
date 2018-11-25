@@ -27,15 +27,23 @@ var noiseMax = 0;
 
 var graphData = [
   {
-    nodeName: "Room A400",
+    nodeName: "Live data room",
     nodeData: []
   },
   {
-    nodeName: "Room B2",
+    nodeName: "Sleeping Room",
     nodeData: []
   },
   {
-    nodeName: "Room C9",
+    nodeName: "Loud/Hot Room",
+    nodeData: []
+  },
+  {
+    nodeName: "Work Room",
+    nodeData: []
+  },
+  {
+    nodeName: "Loud/Hot Room 2",
     nodeData: []
   }
 ];
@@ -100,9 +108,9 @@ parser.on('data', function (data) {
     }
     var node4 = {
       name: time,
-      light: 10 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
-      temperature: 22 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
-      sound: 40+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) )
+      light: 80 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
+      temperature: 24 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
+      sound: 50 + ((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1)
     }
     var node5 = {
       name: time,
