@@ -1,4 +1,3 @@
-# DO NOT CHANGE MAIN.INO!
 
 # Data Ranges
 Temperature: 18-40C
