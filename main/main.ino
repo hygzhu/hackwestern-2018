@@ -89,7 +89,7 @@ void loop() {
       // Change color
       int tempVal = totalRGVal / (tempMax - tempMin) * (temperature - tempMin);
       float soundVal = totalRGVal / (noiseMax - noiseMin) * (noise - noiseMin);
-      float totalVal = tempVal * 0.75 + soundVal * 0.25;
+      float totalVal = tempVal * 0.5 + soundVal * 0.5;
 //      Serial.print("Temp: ");
 //      Serial.println(tempVal);
 //      Serial.print("Sound: ");
