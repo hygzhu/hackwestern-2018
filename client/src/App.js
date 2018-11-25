@@ -96,12 +96,32 @@ class App extends Component {
     const checkBoxes = this.state.checkBoxes;
     console.log(nodes);
 
+    // if (checkedItems.get("filter-1")) { // If sleep hitbox checked
+    //   this.state.data
+    // }
+    // for (var i = 0; i < nodes.length; i++) {
+    //     switch (this.state.field) {
+    //       case 'temperature':
+    //         this.state.data.nodeData[i].optimal1 = 18;
+    //         this.state.data.nodeData[i].optimal2 = 24;
+    //         break;
+    //       case 'sound':
+    //         this.state.data.nodeData[i].optimal1 = 50;
+    //         this.state.data.nodeData[i].optimal2 = 64;
+    //         break;
+    //       case 'light':
+    //         this.state.data.nodeData[i].optimal1 = 18;
+    //         this.state.data.nodeData[i].optimal2 = 18;
+    //         break;
+    //     }
+    //   }
+
     var graphDisplay = (
       <div id="graph-container" style={{display: this.state.displayGraph ? "block" : "none"}}>
         <i onClick={() => {this.setHideGraph()}} className="far fa-times-circle"></i>
-        <LineGraph color="#8884d8" field="temperature" data={nodes[this.state.graphIndex] ? nodes[this.state.graphIndex] : {}}/>
-        <LineGraph color="#1abc9c" field="sound" data={nodes[this.state.graphIndex] ? nodes[this.state.graphIndex] : {}}/>
-        <LineGraph color="#f4d03f" field="light" data={nodes[this.state.graphIndex] ? nodes[this.state.graphIndex] : {}}/>
+        <LineGraph checkedItems={this.state.checkedItems} color="#8884d8" field="temperature" data={nodes[this.state.graphIndex] ? nodes[this.state.graphIndex] : {}}/>
+        <LineGraph checkedItems={this.state.checkedItems} color="#1abc9c" field="sound" data={nodes[this.state.graphIndex] ? nodes[this.state.graphIndex] : {}}/>
+        <LineGraph checkedItems={this.state.checkedItems} color="#f4d03f" field="light" data={nodes[this.state.graphIndex] ? nodes[this.state.graphIndex] : {}}/>
       </div>
     )
 
