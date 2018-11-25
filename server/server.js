@@ -28,22 +28,27 @@ var noiseMax = 0;
 var graphData = [
   {
     nodeName: "Live data room",
+    nodeId: "live-data-room",
     nodeData: []
   },
   {
     nodeName: "Sleeping Room",
+    nodeId: "sleeping-room",
     nodeData: []
   },
   {
     nodeName: "Loud/Hot Room",
+    nodeId: "loud-room",
     nodeData: []
   },
   {
     nodeName: "Work Room",
+    nodeId: "work-room",
     nodeData: []
   },
   {
     nodeName: "Loud/Hot Room 2",
+    nodeId: "loud-room-2",
     nodeData: []
   }
 ];

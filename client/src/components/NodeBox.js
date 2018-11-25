@@ -27,7 +27,7 @@ class NodeBox extends Component {
 
     var indicator = new Rainbow();
     indicator.setNumberRange(0, 20);
-    indicator.setSpectrum('#195aff', '#f71f13');
+    indicator.setSpectrum('#206ad8', '#8016bf', '#e40008');
     var tempColor = indicator.colorAt(Math.floor((latestTemp / this.state.temperature.max) * 20));
     var soundColor = indicator.colorAt(Math.floor((latestSound / this.state.sound.max) * 20));
     var lightColor = indicator.colorAt(Math.floor((latestLight / this.state.light.max) * 20));
