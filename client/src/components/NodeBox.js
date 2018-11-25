@@ -20,7 +20,7 @@ class NodeBox extends Component {
 
   render () {
     var nodeData = this.props.data ? this.props.data : {};
-    var latestData = nodeData.nodeData ? nodeData.nodeData.slice(-1)[0] : [];
+    var latestData = nodeData.nodeData ? nodeData.nodeData.slice(-1)[0] : {temperature: 22, sound: 33, light: 39};
     var latestTemp = Math.round(latestData.temperature);
     var latestSound = Math.round(latestData.sound);
     var latestLight = Math.round(latestData.light);

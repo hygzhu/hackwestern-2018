@@ -63,18 +63,32 @@ class App extends Component {
   setHideGraph() {
     this.setState({showGraph: false, displayGraph: false});
     console.log(this.state.showGraph);
-    // setTimeout(() => {
-    //   this.setState({
-    //     displayGraph: false
-    //   });
-    //   console.log(this.state.displayGraph);
-    // }, 1000);
   }
 
   handleFilterChange(e) {
     const item = e.target.name;
     const isChecked = e.target.checked;
     this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
+  }
+
+  filterNode(node) {
+    var d = node.nodeData.slice(-1)[0];
+    console.log("FILTER: ");
+    console.log(d);
+    console.log(this.state.checkedItems);
+    console.log(this.state.checkedItems.get("filter-1") && true);
+    if (this.state.checkedItems.get("filter-1") && (d.sound > 38 || d.light > 30 || d.temperature > 24 || d.temperature < 21)) {
+      return false;
+    }
+    else if (this.state.checkedItems.get("filter-2") && (d.light < 36 || d.temperature < 21 || d.temperature > 27)) {
+      return false;
+    }
+    else if (this.state.checkedItems.get("filter-3") && (d.light < 36 || d.temperature < 21 || d.temperature > 27 || d.sound > 41)) {
+      return false;
+    }
+    else {
+      return true;
+    }
   }
 
   render() {
@@ -109,7 +123,9 @@ class App extends Component {
         </header>
         <div className="node-container">
           {nodes.map((node, i) => {
-            return <NodeBox handleClick={this.setGraphIndex.bind(this)} data={node} key={i} graphIndex={i}/>;
+            if (this.filterNode(node)) {
+              return <NodeBox handleClick={this.setGraphIndex.bind(this)} data={node} key={i} graphIndex={i}/>;
+            }
           })}
         </div>
         {graphDisplay}
