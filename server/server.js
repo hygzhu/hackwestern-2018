@@ -39,9 +39,11 @@ var graphData = [
     nodeData: []
   }
 ];
-var roomA400NodeData = [];
-var roomB2NodeData = [];
-var roomC9NodeData = [];
+var room1 = [];
+var room2 = [];
+var room3 = [];
+var room4 = [];
+var room5 = [];
 
 var dataString = "";
 var curInput = 0; // 0 = light, 1 = temperature, 2 = noise
@@ -82,33 +84,54 @@ parser.on('data', function (data) {
       temperature: avgTemp,
       sound: noiseMax
     }
+    //dark room
     var node2 = {
       name: time,
-      light: avgLight + 3,
-      temperature: avgTemp + 3,
-      sound: noiseMax + 3
+      light: 10 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
+      temperature: 22 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
+      sound: 40+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) )
     }
+    //loud and hot
     var node3 = {
       name: time,
-      light: Math.max(avgLight - 3, 0),
-      temperature: Math.max(avgTemp - 3, 0),
-      sound: Math.max(noiseMax + 3, 0)
+      light: 90 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
+      temperature: 28 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
+      sound: 65+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) )
     }
-    roomA400NodeData.push(node);
-    roomB2NodeData.push(node2);
-    roomC9NodeData.push(node3);
-    if (roomA400NodeData.length > maxDataPoints) roomA400NodeData.shift();
-    if (roomB2NodeData.length > maxDataPoints) roomB2NodeData.shift();
-    if (roomC9NodeData.length > maxDataPoints) roomC9NodeData.shift();
+    var node4 = {
+      name: time,
+      light: 10 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
+      temperature: 22 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
+      sound: 40+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) )
+    }
+    var node5 = {
+      name: time,
+      light: 90 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
+      temperature: 28 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
+      sound: 65+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) )
+    }
+    room1.push(node);
+    room2.push(node2);
+    room3.push(node3);
+    room4.push(node4);
+    room5.push(node5);
+
+    if (room1.length > maxDataPoints) room1.shift();
+    if (room2.length > maxDataPoints) room2.shift();
+    if (room3.length > maxDataPoints) room3.shift();
+    if (room4.length > maxDataPoints) room4.shift();
+    if (room5.length > maxDataPoints) room5.shift();
     // Reset tallies
     curIter = 0;
     lightInfo = 0;
     tempInfo = 0;
     noiseInfo = 0;
     noiseMax = 0;
-    graphData[0].nodeData = roomA400NodeData;
-    graphData[1].nodeData = roomB2NodeData;
-    graphData[2].nodeData = roomC9NodeData;
+    graphData[0].nodeData = room1;
+    graphData[1].nodeData = room2;
+    graphData[2].nodeData = room3;
+    graphData[3].nodeData = room4;
+    graphData[4].nodeData = room5;
     if (__DEBUG) console.log(graphData);
   }
   switch (curInput) { // cycle through the 3 input types
