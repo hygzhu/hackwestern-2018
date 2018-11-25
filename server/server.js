@@ -5,13 +5,13 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 const cors = require("cors");
 //const Data = require("./data");
-//const SerialPort = require('serialport');
-//const Delimiter = require('@serialport/parser-delimiter')
+const SerialPort = require('serialport');
+const Delimiter = require('@serialport/parser-delimiter')
 // const SerialPort = serialport.SerialPort;
-//const Readline = SerialPort.parsers.Readline;
+// const Readline = SerialPort.parsers.Readline;
 
-//const arduinoPort = new SerialPort('\\\\.\\COM5');
-//const parser = arduinoPort.pipe(new Delimiter({ delimiter: '\n'}));
+const arduinoPort = new SerialPort('\\\\.\\COM5');
+const parser = arduinoPort.pipe(new Delimiter({ delimiter: '\n'}));
 
 const API_PORT = 3001;
 const app = express();
@@ -33,9 +33,12 @@ var graphData = [
 var roomA400NodeData = [];
 
 var dataString = "";
-var curInput = 0;
+var curInput = 0; // 0 = light, 1 = temperature, 2 = noise
+var curIter = 1;
+const maxIter = 20; // 20 datapoints with 100ms delay between each (new node every 2s)
+const maxDataPoints = 15;
 // 0 = light, 1 = temperature, 2 = noise
-/*parser.on('data', function (data) {
+parser.on('data', function (data) {
   dataString = data.toString('utf8');
   if (curIter == maxIter) { // Calculate average data
     var date = new Date();
@@ -92,7 +95,7 @@ var curInput = 0;
       curIter++;
       break;
   } // switch
-});*/
+});
 // });
 
 
