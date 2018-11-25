@@ -33,17 +33,9 @@ var graphData = [
 var roomA400NodeData = [];
 
 var dataString = "";
-<<<<<<< HEAD
 var curInput = 0;
 // 0 = light, 1 = temperature, 2 = noise
 /*parser.on('data', function (data) {
-=======
-var curInput = 0; // 0 = light, 1 = temperature, 2 = noise
-var curIter = 1;
-const maxIter = 20; // 20 datapoints with 100ms delay between each (new node every 2s)
-const maxDataPoints = 15;
-parser.on('data', function (data) {
->>>>>>> aa1e0fb259d9c4faa0ab079587be858e4f205a12
   dataString = data.toString('utf8');
   if (curIter == maxIter) { // Calculate average data
     var date = new Date();
