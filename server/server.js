@@ -24,7 +24,7 @@ var lightInfo = 0;
 var tempInfo = 0;
 var noiseInfo = 0;
 
-var data = [
+var graphData = [
   {
     nodeName: "Room A400",
     nodeData: []
@@ -48,13 +48,16 @@ parser.on('data', function (data) {
     var avgLight = lightInfo/maxIter;
     if (avgLight < 0) { avgLight = 0; } 
     else if (avgLight > 100) { avgLight = 100; }
+
     var avgTemp = tempInfo/maxIter;
     if (avgTemp < 10) { avgTemp = 10; } 
     else if (avgTemp > 40) { avgTemp = 40; }
+
     var avgNoise = noiseInfo/maxIter;
     if (avgNoise < -999) { avgNoise = 45; }
     else if (avgNoise < 35) { avgNoise = 35; }
     else if (avgNoise > 50) { avgNoise = 50; }
+
     if (__DEBUG) {  // Print debug messages
       console.log("light: " + avgLight);
       console.log("TEMP: " + avgTemp);
@@ -73,7 +76,8 @@ parser.on('data', function (data) {
     lightInfo = 0;
     tempInfo = 0;
     noiseInfo = 0;
-    data.nodeData = roomA400NodeData;
+    graphData[0].nodeData = roomA400NodeData;
+    if (__DEBUG) console.log(graphData);
   }
   switch (curInput) { // cycle through the 3 input types
     case 0:
@@ -134,8 +138,8 @@ app.use(logger("dev"));
 //Sound ranges 0-1000 (Ambient sound is around 200)
 
 router.get("/getData", (req, res) => {
-  console.log(data);
-  return res.json({data: data});
+  console.log(graphData);
+  return res.json({data: graphData});
 });
 
 // append /api for our http requests
