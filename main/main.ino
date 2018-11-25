@@ -89,7 +89,7 @@ void loop() {
       // Change color
       int tempVal = totalRGVal / (tempMax - tempMin) * (temperature - tempMin);
       float soundVal = totalRGVal / (noiseMax - noiseMin) * (noise - noiseMin);
-      float totalVal = tempVal * 0.75 + soundVal * 0.25;
+      float totalVal = tempVal * 0.5 + soundVal * 0.5;
 //      Serial.print("Temp: ");
 //      Serial.println(tempVal);
 //      Serial.print("Sound: ");
@@ -97,7 +97,7 @@ void loop() {
 //      Serial.print("Total: ");
 //      Serial.println(totalVal);
       if (light < 100) {
-        lcd.setRGB(0, 0, 255);
+        lcd.setRGB(30, 0, 70);
       } else {
         if (totalVal < 255) {
           lcd.setRGB(0, max(255 - totalVal, 10), 0);

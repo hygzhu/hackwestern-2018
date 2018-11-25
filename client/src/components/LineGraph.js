@@ -49,8 +49,11 @@ class LineGraph extends Component {
         <Tooltip/>
         <Legend />
         <Line isAnimationActive={false} type="monotone" dataKey={this.props.field} stroke={this.props.color} activeDot={{r: 3}}/>
-        {(this.props.checkedItems.get('filter-1') || this.props.checkedItems.get('filter-3')) && this.props.field == "temperature" && <Line type="monotone" dataKey='tempOpt' stroke={this.props.color} activeDot={{r: 8}} strokeDasharray="5 5" />}
-        {(this.props.checkedItems.get('filter-1') || this.props.checkedItems.get('filter-3')) && this.props.field == "sound" && <Line type="monotone" dataKey='soundOpt' stroke={this.props.color} activeDot={{r: 8}} strokeDasharray="5 5" />}
+        {(this.props.checkedItems.get('filter-1') || this.props.checkedItems.get('filter-3')) && this.props.field == "temperature" && <Line type="monotone" dataKey='tempOpt' stroke={this.props.color} activeDot={{r: 2}} strokeDasharray="5 5" />}
+        {(this.props.checkedItems.get('filter-1') || this.props.checkedItems.get('filter-3')) && this.props.field == "sound" && <Line type="monotone" dataKey='soundOpt' stroke={this.props.color} activeDot={{r: 2}} strokeDasharray="5 5" />}
+        {this.props.field == 'light' && <Line isAnimationActive={false} type="monotone" dataKey='averageLight' stroke="#ba1007" activeDot={{r: 2}} strokeDasharray="5 5" />}
+        {this.props.field == 'temperature' && <Line isAnimationActive={false} type="monotone" dataKey='averageTemp' stroke="#ba1007" activeDot={{r: 2}} strokeDasharray="5 5" />}
+        {this.props.field == 'sound' && <Line isAnimationActive={false} type="monotone" dataKey='averageSound' stroke="#ba1007" activeDot={{r: 2}} strokeDasharray="5 5" />}
         </LineChart>
       </div>
     );
