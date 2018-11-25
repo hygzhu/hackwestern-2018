@@ -37,6 +37,14 @@ var graphData = [
   {
     nodeName: "Room C9",
     nodeData: []
+  },
+  {
+    nodeName: "Room DJ",
+    nodeData: []
+  },
+  {
+    nodeName: "Room J4",
+    nodeData: []
   }
 ];
 var room1 = [];
