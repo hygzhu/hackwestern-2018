@@ -133,9 +133,9 @@ class App extends Component {
 
           <div className="filter-container">
           {checkBoxes.map((item, i) => (
-            <label key={i}>
-              <p>{item.label}</p>   
+            <label key={i}>   
               <Checkbox name={item.name} checked={this.state.checkedItems.get(item.name)} onChange={this.handleFilterChange.bind(this)} />
+              <p>{item.label}</p>
             </label>
             ))
           }
