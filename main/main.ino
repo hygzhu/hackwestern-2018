@@ -97,7 +97,7 @@ void loop() {
 //      Serial.print("Total: ");
 //      Serial.println(totalVal);
       if (light < 100) {
-        lcd.setRGB(0, 0, 255);
+        lcd.setRGB(30, 0, 70);
       } else {
         if (totalVal < 255) {
           lcd.setRGB(0, max(255 - totalVal, 10), 0);
