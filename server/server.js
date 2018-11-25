@@ -22,15 +22,26 @@ app.options('*', cors());
 // var tempInfo = [15, 16, 16, 18, 25, 25, 16];
 var lightInfo = 0;
 var tempInfo = 0;
-var noiseInfo = 0;
+var noiseInfo = 0; //innacurrate way
+var noiseMax = 0;
 
 var graphData = [
   {
     nodeName: "Room A400",
     nodeData: []
+  },
+  {
+    nodeName: "Room B2",
+    nodeData: []
+  },
+  {
+    nodeName: "Room C9",
+    nodeData: []
   }
 ];
 var roomA400NodeData = [];
+var roomB2NodeData = [];
+var roomC9NodeData = [];
 
 var dataString = "";
 var curInput = 0; // 0 = light, 1 = temperature, 2 = noise
@@ -42,9 +53,10 @@ parser.on('data', function (data) {
   dataString = data.toString('utf8');
   if (curIter == maxIter) { // Calculate average data
     var date = new Date();
-    var time = date.getHours();
-    time += date.getMinutes();
-    time += date.getSeconds();
+    var time = date.getHours().toString();
+    time += ":" + date.getMinutes().toString();
+    time += ":" + date.getSeconds().toString();
+    console.log("Server time: " + time );
     // Calculate Averages and put in a node
     var avgLight = lightInfo/maxIter;
     if (avgLight < 0) { avgLight = 0; } 
@@ -68,16 +80,35 @@ parser.on('data', function (data) {
       name: time,
       light: avgLight,
       temperature: avgTemp,
-      sound: avgNoise
+      sound: noiseMax
+    }
+    var node2 = {
+      name: time,
+      light: avgLight + 3,
+      temperature: avgTemp + 3,
+      sound: noiseMax + 3
+    }
+    var node3 = {
+      name: time,
+      light: Math.max(avgLight - 3, 0),
+      temperature: Math.max(avgTemp - 3, 0),
+      sound: Math.max(noiseMax + 3, 0)
     }
     roomA400NodeData.push(node);
+    roomB2NodeData.push(node2);
+    roomC9NodeData.push(node3);
     if (roomA400NodeData.length > maxDataPoints) roomA400NodeData.shift();
+    if (roomB2NodeData.length > maxDataPoints) roomB2NodeData.shift();
+    if (roomC9NodeData.length > maxDataPoints) roomC9NodeData.shift();
     // Reset tallies
     curIter = 0;
     lightInfo = 0;
     tempInfo = 0;
     noiseInfo = 0;
+    noiseMax = 0;
     graphData[0].nodeData = roomA400NodeData;
+    graphData[1].nodeData = roomB2NodeData;
+    graphData[2].nodeData = roomC9NodeData;
     if (__DEBUG) console.log(graphData);
   }
   switch (curInput) { // cycle through the 3 input types
@@ -90,7 +121,9 @@ parser.on('data', function (data) {
       curInput++;
       break;
     case 2:
-      noiseInfo += toDecibels(parseFloat(data.toString('utf8')));
+      //noiseInfo += toDecibels(parseFloat(data.toString('utf8')));
+      noiseMax = Math.max(noiseMax, toDecibels(parseFloat(data.toString('utf8'))));
+      // console.log(noiseMax);
       curInput = 0;
       curIter++;
       break;
@@ -154,18 +187,22 @@ app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
 //converts the arduino noise level to decibels
 function toDecibels(noise){
 
+  //console.log("Noise level: " + noise)
+
   //Get the 40db mark (quiet office) TODO: Need to calibrate
-  const frame = 150;
+  const frame = 100;
 
   //Need to calibrate against a sound meter
   let db_change = 20*Math.log10(noise/frame);
 
-  return 40 + db_change;
+  //console.log("DB Change:" + db_change);
+
+  return 45 + db_change;
   
 }
 
 function toCelsius(temp) {
-  return temp - 30;
+  return temp - 35;
 }
 
 // Gets the percentage brightness
