@@ -73,15 +73,15 @@ parser.on('data', function (data) {
     time += ":" + date.getSeconds().toString();
     console.log("Server time: " + time );
     // Calculate Averages and put in a node
-    var avgLight = lightInfo/maxIter;
+    var avgLight = round2Dec(lightInfo/maxIter);
     if (avgLight < 0) { avgLight = 0; } 
     else if (avgLight > 100) { avgLight = 100; }
 
-    var avgTemp = tempInfo/maxIter;
+    var avgTemp = round2Dec(tempInfo/maxIter);
     if (avgTemp < 10) { avgTemp = 10; } 
     else if (avgTemp > 40) { avgTemp = 40; }
 
-    var avgNoise = noiseInfo/maxIter;
+    var avgNoise = round2Dec(noiseInfo/maxIter);
     if (avgNoise < -999) { avgNoise = 45; }
     else if (avgNoise < 35) { avgNoise = 35; }
     else if (avgNoise > 50) { avgNoise = 50; }
@@ -92,21 +92,21 @@ parser.on('data', function (data) {
       console.log("noise: " + avgNoise);
     } // if
 
-    var light2 = 10 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1);
-    var temperature2 = 22 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1));
-    var sound2 = 40 + (Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1));
+    var light2 = round2Dec(10 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1));
+    var temperature2 = round2Dec(22 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)));
+    var sound2 = round2Dec(40 + (Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1)));
 
-    var light3 = 90 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1);
-    var temperature3 = 28 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1));
-    var sound3 = 65 + (Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) );
+    var light3 = round2Dec(90 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1));
+    var temperature3 = round2Dec(28 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)));
+    var sound3 = round2Dec(65 + (Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) ));
 
-    var light4 = 80 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1);
-    var temperature4 = 24 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1));
-    var sound4 = 50 + ((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1);
+    var light4 = round2Dec(80 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1));
+    var temperature4 = round2Dec(24 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)));
+    var sound4 = round2Dec(50 + ((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1));
     
-    var light5 = 90 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1);
-    var temperature5 = 28 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1));
-    var sound5 = 65 + (Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) );
+    var light5 = round2Dec(90 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1));
+    var temperature5 = round2Dec(28 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)));
+    var sound5 = round2Dec(65 + (Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) ));
     
     var totalAvgLight = Math.round((avgLight + light2 + light3 + light4 + light5) / 5 * 100) / 100;
     var totalAvgTemp = Math.round((avgTemp + temperature2 + temperature3 + temperature4 + temperature5) / 5 * 100) / 100;
@@ -204,7 +204,7 @@ parser.on('data', function (data) {
       break;
     case 2:
       //noiseInfo += toDecibels(parseFloat(data.toString('utf8')));
-      noiseMax = Math.max(noiseMax, toDecibels(parseFloat(data.toString('utf8'))));
+      noiseMax = round2Dec(Math.max(noiseMax, toDecibels(parseFloat(data.toString('utf8')))));
       // console.log(noiseMax);
       curInput = 0;
       curIter++;
@@ -280,7 +280,6 @@ function toDecibels(noise){
   //console.log("DB Change:" + db_change);
 
   return 45 + db_change;
-  
 }
 
 function toCelsius(temp) {
@@ -292,4 +291,8 @@ function toPercentageBrightness(brightness) {
   const maxBrightness = 1100;
 
   return Math.floor(brightness / maxBrightness * 100);
+}
+
+function round2Dec(num) {
+  return Math.round(num * 100) / 100;
 }
