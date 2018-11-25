@@ -33,8 +33,32 @@ class NodeBox extends Component {
     var lightColor = indicator.colorAt(Math.floor((latestLight / this.state.light.max) * 20));
     //console.log("Temp Color: " + tempColor + typeof tempColor);
 
+    var numPoints = nodeData.nodeData.length;
+    var tempAvg = 0;
+    var soundAvg = 0;
+    var lightAvg = 0;
+    for (var i = 0; i < numPoints; i++) {
+      tempAvg += nodeData.nodeData[i].temperature;
+      soundAvg += nodeData.nodeData[i].sound;
+      lightAvg += nodeData.nodeData[i].light;
+    }
+
+    tempAvg = tempAvg / numPoints;
+    soundAvg = soundAvg / numPoints;
+    lightAvg = lightAvg / numPoints;
+
+    var darkRoom = lightAvg < 31 ? true : false;
+    //soundAvg = soundAvg / this.state.sound.max;
+    var tempAvgColor = indicator.colorAt(Math.floor(tempAvg * 20));
+
+    var indicatorStyle = {
+      backgroundColor: darkRoom ? '#19387a' : '#e0001a',
+      boxShadow: '0 0 ' + Math.pow(soundAvg,1.2)/2 + 'px ' + Math.pow(soundAvg,1.2)/2 + 'px ' + 'rgba(254, 129, 133, ' + Math.max((tempAvg - 18)/12, 0) + ')'  
+    };
+
     return (
       <div className={"node-box " + nodeData.nodeId} onClick={() => {this.props.handleClick(this.props.graphIndex)}}>
+        <div className="node-main-indicator" style={indicatorStyle}></div>
         <p className="node-title">{nodeData.nodeName}</p>
         <div className="node-gauges">
           <div className="indicator-circle" style={{"backgroundColor": "#" + tempColor}}> </div>

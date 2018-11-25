@@ -109,16 +109,17 @@ p, span, tspan {
   cursor: pointer;
 }
 
-.node-box::before {
+.node-main-indicator {
   position: absolute;
   content: '';
-  top: -9px;
-  left: -9px;
+  top: -10px;
+  left: -10px;
   height: 18px;
   width: 18px;
   border-radius: 50%;
   background-color: #19387a;
-  box-shadow: 0px 0px 3px -1px #333333;
+  box-shadow: 0px 0px 30px 20px #b44949;
+  z-index: -1;
 }
 
 .node-title {
