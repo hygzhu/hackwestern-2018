@@ -36,7 +36,7 @@ p, span, tspan {
 
 .filter-container {
   width: 600px;
-  height: 80px;
+  /* height: 80px; */
   margin: 8px 0 0 22px;
 }
 .filter-container > label > p {
@@ -57,19 +57,43 @@ p, span, tspan {
   vertical-align: middle;
 }
 
+.map-container {
+  position: absolute;
+  width: 100%;
+  height: calc(100vh - 110px);
+  margin: 0;
+  overflow-x: scroll;
+  overflow-y: scroll;
+}
+
+.map-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1800px;
+  height: 700px;
+  background-image: url("floor-map.png");
+  background-size: cover;
+  z-index: 0;
+
+}
+
 .node-container {
+  position: absolute;
   margin-left: 22px;
+  z-index: 1;
 }
 
 .node-box {
   margin-top: 22px;
   height: 80px;
-  width: 380px;
+  width: 320px;
   background-color: #f0f2f3;
   border-bottom: 3px solid #555351;
+  border-radius: 3px;
   
-  -webkit-box-shadow: 0px 0px 4px 0px #333333; 
-  box-shadow: 0px 0px 4px -2px #333333;
+  -webkit-box-shadow: 0px 0px 6px 0px #333333; 
+  box-shadow: 0px 0px 6px 0px #333333;
 }
 
 .node-title {
@@ -88,7 +112,7 @@ p, span, tspan {
 
 .node-label {
   display: inline-block;
-  width: 70px;
+  width: 50px;
   color: #777574;
   vertical-align: top;
   line-height: 20px;
@@ -123,9 +147,10 @@ p, span, tspan {
   top: 122px;
   background-color: #f0f2f3;
   border-bottom: 3px solid #555351;
+  border-radius: 3px;
   /* overflow: scroll; */
-  -webkit-box-shadow: 0px 0px 4px 0px #333333; 
-  box-shadow: 0px 0px 4px -2px #333333;
+  -webkit-box-shadow: 0px 0px 6px 0px #333333; 
+  box-shadow: 0px 0px 6px 0px #333333;
 
   transition:opacity 1s linear;
 }

@@ -34,7 +34,7 @@ class NodeBox extends Component {
     //console.log("Temp Color: " + tempColor + typeof tempColor);
 
     return (
-      <div className="node-box" onClick={() => {this.props.handleClick(this.props.graphIndex)}}>
+      <div className={"node-box " + nodeData.nodeId} onClick={() => {this.props.handleClick(this.props.graphIndex)}}>
         <p className="node-title">{nodeData.nodeName}</p>
         <div className="node-gauges">
           <div className="indicator-circle" style={{"backgroundColor": "#" + tempColor}}> </div>

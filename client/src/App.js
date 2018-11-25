@@ -122,6 +122,7 @@ class App extends Component {
           </div>
         </header>
         <div className="map-container">
+          <div className="map-image"></div>
           <div className="node-container">
             {nodes.map((node, i) => {
               if (this.filterNode(node)) {
