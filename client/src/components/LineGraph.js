@@ -27,7 +27,7 @@ class LineGraph extends Component {
         <LineChart width={550} height={140} data={this.props.data.nodeData}>
         <CartesianGrid strokeDasharray="3 3"/>
         <XAxis dataKey="name" padding={{left: 30, right: 30}}/>
-        <YAxis domain={[state[this.props.field].min, state[this.props.field].max]}/>
+        <YAxis domain={[this.state[this.props.field].min, this.state[this.props.field].max]}/>
         <Tooltip/>
         <Legend />
         <Line isAnimationActive={false} type="monotone" dataKey={this.props.field} stroke={this.props.color} activeDot={{r: 3}}/>
