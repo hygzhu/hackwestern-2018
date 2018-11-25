@@ -121,7 +121,7 @@ class App extends Component {
           }
           </div>
         </header>
-        <div className="map-container">
+        <div className={"map-container" + (this.state.displayGraph ? " map-half" : "")}>
           <div className="map-image"></div>
           <div className="node-container">
             {nodes.map((node, i) => {
