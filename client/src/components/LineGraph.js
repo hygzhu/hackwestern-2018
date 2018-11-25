@@ -12,7 +12,7 @@ class LineGraph extends Component {
         <YAxis/>
         <Tooltip/>
         <Legend />
-        <Line type="monotone" dataKey={this.props.field} stroke={this.props.color} activeDot={{r: 8}}/>
+        <Line isAnimationActive={false} type="monotone" dataKey={this.props.field} stroke={this.props.color} activeDot={{r: 3}}/>
         </LineChart>
       </div>
     );

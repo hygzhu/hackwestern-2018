@@ -7,12 +7,32 @@ import './App.css';
 import LineGraph from './components/LineGraph';
 import NodeBox from './components/NodeBox';
 
+const Checkbox = ({ type = 'checkbox', name, checked = false, onChange }) => (
+  <input type={type} name={name} checked={checked} onChange={onChange} />
+);
 class App extends Component {
 
   state = {
     nodes: [],
-    displayGraph: -1,
-    count: 0
+    displayGraph: false,
+    showGraph: false,
+    graphIndex: 0,
+    count: 0,
+    checkBoxes: [
+      {
+        name: 'filter-1',
+        label: 'Sleep rooms',
+      },
+      {
+        name: 'filter-2',
+        label: 'Discussion rooms',
+      },
+      {
+        name: 'filter-3',
+        label: 'Work rooms',
+      }
+    ],
+    checkedItems: new Map()
   };
 
   componentDidMount() {
@@ -36,21 +56,38 @@ class App extends Component {
       });
   };
 
-  setGraphDisplay(graphIndex) {
-    this.setState({displayGraph: graphIndex});
-    console.log(this.state.displayGraph);
+  setGraphIndex(graphIndex) {
+    this.setState({showGraph: true, displayGraph: true, graphIndex: graphIndex});
+  }
+
+  setHideGraph() {
+    this.setState({showGraph: false, displayGraph: false});
+    console.log(this.state.showGraph);
+    // setTimeout(() => {
+    //   this.setState({
+    //     displayGraph: false
+    //   });
+    //   console.log(this.state.displayGraph);
+    // }, 1000);
+  }
+
+  handleFilterChange(e) {
+    const item = e.target.name;
+    const isChecked = e.target.checked;
+    this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
   }
 
   render() {
     const nodes = this.state.nodes;
+    const checkBoxes = this.state.checkBoxes;
     console.log(nodes);
 
     var graphDisplay = (
-      <div id="graph-container" style={{opacity: this.state.displayGraph == -1 ? 0 : 100, visibility: this.state.displayGraph == -1 ? "hidden" : "visible"}}>
-        <i onClick={() => {this.setGraphDisplay(-1)}} class="far fa-times-circle"></i>
-        <LineGraph color="#8884d8" field="temperature" data={nodes[this.state.displayGraph] ? nodes[this.state.displayGraph] : {}}/>
-        <LineGraph color="#1abc9c" field="sound" data={nodes[this.state.displayGraph] ? nodes[this.state.displayGraph] : {}}/>
-        <LineGraph color="#f4d03f" field="light" data={nodes[this.state.displayGraph] ? nodes[this.state.displayGraph] : {}}/>
+      <div id="graph-container" style={{display: this.state.displayGraph ? "block" : "none"}}>
+        <i onClick={() => {this.setHideGraph()}} className="far fa-times-circle"></i>
+        <LineGraph color="#8884d8" field="temperature" data={nodes[this.state.graphIndex] ? nodes[this.state.graphIndex] : {}}/>
+        <LineGraph color="#1abc9c" field="sound" data={nodes[this.state.graphIndex] ? nodes[this.state.graphIndex] : {}}/>
+        <LineGraph color="#f4d03f" field="light" data={nodes[this.state.graphIndex] ? nodes[this.state.graphIndex] : {}}/>
       </div>
     )
 
@@ -59,10 +96,20 @@ class App extends Component {
         <header className="App-header">
           {/*<img src={logo} className="App-logo" alt="logo" />*/}
           <h1>Event Activity Heatmap</h1>
+
+          <div className="filter-container">
+          {checkBoxes.map((item, i) => (
+            <label key={i}>
+              <p>{item.label}</p>   
+              <Checkbox name={item.name} checked={this.state.checkedItems.get(item.name)} onChange={this.handleFilterChange.bind(this)} />
+            </label>
+            ))
+          }
+          </div>
         </header>
         <div className="node-container">
           {nodes.map((node, i) => {
-            return <NodeBox handleClick={this.setGraphDisplay.bind(this)} data={node} key={i} graphIndex={i}/>;
+            return <NodeBox handleClick={this.setGraphIndex.bind(this)} data={node} key={i} graphIndex={i}/>;
           })}
         </div>
         {graphDisplay}
