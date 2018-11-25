@@ -90,33 +90,43 @@ parser.on('data', function (data) {
       name: time,
       light: avgLight,
       temperature: avgTemp,
-      sound: noiseMax
+      sound: noiseMax,
+      tempOpt: 24,
+      soundOpt: 50
     }
     //dark room
     var node2 = {
       name: time,
       light: 10 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
       temperature: 22 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
-      sound: 40+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) )
+      sound: 40+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) ),
+      tempOpt: 24,
+      soundOpt: 50
     }
     //loud and hot
     var node3 = {
       name: time,
       light: 90 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
       temperature: 28 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
-      sound: 65+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) )
+      sound: 65+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) ),
+      tempOpt: 24,
+      soundOpt: 50
     }
     var node4 = {
       name: time,
       light: 80 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
       temperature: 24 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
-      sound: 50 + ((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1)
+      sound: 50 + ((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1),
+      tempOpt: 24,
+      soundOpt: 50
     }
     var node5 = {
       name: time,
       light: 90 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
       temperature: 28 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
-      sound: 65+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) )
+      sound: 65+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) ),
+      tempOpt: 24,
+      soundOpt: 50
     }
     room1.push(node);
     room2.push(node2);
@@ -233,12 +243,12 @@ function toDecibels(noise){
 }
 
 function toCelsius(temp) {
-  return temp - 35;
+  return temp - 30;
 }
 
 // Gets the percentage brightness
 function toPercentageBrightness(brightness) {
   const maxBrightness = 1100;
 
-  return brightness / maxBrightness * 100;
+  return Math.floor(brightness / maxBrightness * 100);
 }
