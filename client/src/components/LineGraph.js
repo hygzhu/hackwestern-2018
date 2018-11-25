@@ -4,6 +4,9 @@ import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'rec
 class LineGraph extends Component {
 
   render () {
+
+    var roundedData = this.props.data.nodeData;
+
     return (
       <div className={"graph-view graph-" + this.props.field}>
         <LineChart width={550} height={140} data={this.props.data.nodeData}>
