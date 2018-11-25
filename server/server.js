@@ -91,47 +91,83 @@ parser.on('data', function (data) {
       console.log("TEMP: " + avgTemp);
       console.log("noise: " + avgNoise);
     } // if
+
+    var light2 = 10 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1);
+    var temperature2 = 22 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1));
+    var sound2 = 40 + (Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1));
+
+    var light3 = 90 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1);
+    var temperature3 = 28 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1));
+    var sound3 = 65 + (Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) );
+
+    var light4 = 80 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1);
+    var temperature4 = 24 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1));
+    var sound4 = 50 + ((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1);
+    
+    var light5 = 90 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1);
+    var temperature5 = 28 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1));
+    var sound5 = 65 + (Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) );
+    
+    var totalAvgLight = Math.round((avgLight + light2 + light3 + light4 + light5) / 5 * 100) / 100;
+    var totalAvgTemp = Math.round((avgTemp + temperature2 + temperature3 + temperature4 + temperature5) / 5 * 100) / 100;
+    var totalAvgSound = Math.round((avgNoise + sound2 + sound3 + sound4 + sound5) / 5 * 100) / 100;
+
     var node = {
       name: time,
       light: avgLight,
       temperature: avgTemp,
       sound: noiseMax,
       tempOpt: 24,
-      soundOpt: 50
+      soundOpt: 50,
+      averageLight: totalAvgLight,
+      averageTemp: totalAvgTemp,
+      averageSound: totalAvgSound
     }
     //dark room
     var node2 = {
       name: time,
-      light: 10 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
-      temperature: 22 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
-      sound: 40+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) ),
+      light: light2,
+      temperature: temperature2,
+      sound: sound2,
       tempOpt: 24,
-      soundOpt: 50
+      soundOpt: 50,
+      averageLight: totalAvgLight,
+      averageTemp: totalAvgTemp,
+      averageSound: totalAvgSound
     }
     //loud and hot
     var node3 = {
       name: time,
-      light: 90 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
-      temperature: 28 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
-      sound: 65+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) ),
+      light: light3,
+      temperature: temperature3,
+      sound: sound3,
       tempOpt: 24,
-      soundOpt: 50
+      soundOpt: 50,
+      averageLight: totalAvgLight,
+      averageTemp: totalAvgTemp,
+      averageSound: totalAvgSound
     }
     var node4 = {
       name: time,
-      light: 80 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
-      temperature: 24 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
-      sound: 50 + ((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1),
+      light: light4,
+      temperature: temperature4,
+      sound: sound4,
       tempOpt: 24,
-      soundOpt: 50
+      soundOpt: 50,
+      averageLight: totalAvgLight,
+      averageTemp: totalAvgTemp,
+      averageSound: totalAvgSound
     }
     var node5 = {
       name: time,
-      light: 90 + ((Math.random() * 1) + 5) * (Math.random() < 0.5 ? -1 : 1) ,
-      temperature: 28 + (Math.floor((Math.random() * 2) * Math.random() < 0.5 ? -1 : 1)) ,
-      sound: 65+(Math.floor((Math.random() * 1) + 3) * (Math.random() < 0.5 ? -1 : 1) ),
+      light: light5,
+      temperature: temperature5,
+      sound: sound5,
       tempOpt: 24,
-      soundOpt: 50
+      soundOpt: 50,
+      averageLight: totalAvgLight,
+      averageTemp: totalAvgTemp,
+      averageSound: totalAvgSound
     }
     room1.push(node);
     room2.push(node2);
